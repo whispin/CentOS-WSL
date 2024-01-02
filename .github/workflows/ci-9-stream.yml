@@ -26,7 +26,7 @@ jobs:
 
       - name: Release
         run: |
-          GIT_TAG="${GITHUB_REF#refs/tags/}"
+          GIT_TAG="${GITHUB_REF/tags/}"
           GIT_TAG_ESCAPED=$(printf '%s' "${GIT_TAG}" | sed 's/[][\.|$(){}?+*^]/\\&/g')
           GIT_TAG_HASH=$(git ls-remote --tags origin | grep -m 1 "refs/tags/${GIT_TAG_ESCAPED}\$" | cut -f 1)
           GIT_TAG_MESSAGE=$(curl -s -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/${GITHUB_REPOSITORY}/git/tags/${GIT_TAG_HASH}" | jq -r '.message' | sed -n '/-----BEGIN PGP SIGNATURE-----/q;p')
